@@ -1,24 +1,34 @@
 package SMM.projekt.ui.screens
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import SMM.projekt.data.Category
+import SMM.projekt.data.Product
+import SMM.projekt.ui.components.ProductCarouselCard
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import SMM.projekt.data.Category
-import SMM.projekt.data.Product
-import SMM.projekt.utils.getDrawableIdByName
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun HomeScreen(
@@ -133,7 +143,7 @@ fun HomePortraitContent(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(products) { product ->
-                HomeCarouselItem(
+                ProductCarouselCard(
                     product = product,
                     onClick = { onProductClick(product.id) }
                 )
@@ -195,7 +205,7 @@ fun HomeLandscapeContent(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(products) { product ->
-                    HomeCarouselItem(
+                    ProductCarouselCard (
                         product = product,
                         onClick = { onProductClick(product.id) }
                     )
@@ -205,28 +215,3 @@ fun HomeLandscapeContent(
     }
 }
 
-@Composable
-fun HomeCarouselItem(
-    product: Product,
-    onClick: () -> Unit
-) {
-    val context = LocalContext.current
-
-    Card(
-        modifier = Modifier
-            .size(width = 115.dp, height = 145.dp)
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(18.dp)
-    ) {
-        Image(
-            painter = painterResource(id = getDrawableIdByName(
-                    context = context,
-                    name = "${product.key}_thumb"
-                )
-            ),
-            contentDescription = product.name,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-    }
-}

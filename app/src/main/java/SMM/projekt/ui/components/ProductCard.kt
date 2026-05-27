@@ -1,7 +1,6 @@
 package SMM.projekt.ui.components
 
 import SMM.projekt.data.Product
-import SMM.projekt.utils.getDrawableIdByName
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
@@ -30,9 +28,8 @@ fun ProductCard(
         Row(
             modifier = Modifier.padding(12.dp)
         ) {
-            val context = LocalContext.current
             Image(
-                painter = painterResource(id = getDrawableIdByName(context, product.key)),
+                painter = painterResource(id = product.imageRes),
                 contentDescription = product.name,
                 modifier = Modifier
                     .size(100.dp)
