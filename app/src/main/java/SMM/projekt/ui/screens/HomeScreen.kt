@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -121,7 +122,8 @@ fun HomePortraitContent(
                 onClick = { onCategoryClick(category.id) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 52.dp),
+                    .heightIn(min = 52.dp)
+                    .testTag("category_${category.id}"),
                 shape = RoundedCornerShape(12.dp),
                 contentPadding = PaddingValues(
                     horizontal = 16.dp,
