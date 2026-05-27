@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,6 +27,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.material.icons.filled.DarkMode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,18 +57,28 @@ fun SettingsScreen(
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(24.dp)
+                .verticalScroll(rememberScrollState())
         ) {
-            Switch(
-                checked = settings.darkTheme,
-                onCheckedChange = {
+            Row {
+                Icon(
+                    imageVector = Icons.Filled.DarkMode,
+                    contentDescription = null,
+                    modifier = Modifier.padding(end = 12.dp)
+                )
 
-                    onSettingsChange(
-                        settings.copy(
-                            darkTheme = it
-                        )
-                    )
-                }
-            )
+                Text(
+                    text = "Tryb nocny",
+                    modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+
+                Switch(
+                    checked = settings.darkTheme,
+                    onCheckedChange = {
+                        onSettingsChange(settings.copy(darkTheme = it))
+                    }
+                )
+            }
 
             Slider(
                 value = settings.fontScale,
@@ -108,6 +121,46 @@ fun SettingsScreen(
                     }
                 }
             }
+
+            Text(
+                text = "Dźwięk",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(top = 24.dp)
+            )
+
+            Row {
+                Text(
+                    text = "Wycisz muzykę",
+                    modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+
+                Switch(
+                    checked = settings.isMuted,
+                    onCheckedChange = {
+                        onSettingsChange(
+                            settings.copy(isMuted = it)
+                        )
+                    }
+                )
+            }
+
+            Text(
+                text = "Głośność: ${(settings.volume * 100).toInt()}%",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+
+            Slider(
+                value = settings.volume,
+                onValueChange = {
+                    onSettingsChange(
+                        settings.copy(volume = it)
+                    )
+                },
+                valueRange = 0f..1f,
+                enabled = !settings.isMuted
+            )
         }
     }
 }

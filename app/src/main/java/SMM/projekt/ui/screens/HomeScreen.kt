@@ -6,12 +6,14 @@ import SMM.projekt.ui.components.ProductCarouselCard
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyRow
@@ -119,10 +121,18 @@ fun HomePortraitContent(
                 onClick = { onCategoryClick(category.id) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(52.dp),
-                shape = RoundedCornerShape(12.dp)
+                    .heightIn(min = 52.dp),
+                shape = RoundedCornerShape(12.dp),
+                contentPadding = PaddingValues(
+                    horizontal = 16.dp,
+                    vertical = 12.dp
+                )
             ) {
-                Text(category.name, style = MaterialTheme.typography.titleLarge)
+                Text(
+                    text = category.name,
+                    style = MaterialTheme.typography.titleLarge,
+                    maxLines = 2
+                )
             }
 
             Spacer(modifier = Modifier.height(14.dp))
@@ -178,9 +188,20 @@ fun HomeLandscapeContent(
             categories.forEach { category ->
                 Button(
                     onClick = { onCategoryClick(category.id) },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 52.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    contentPadding = PaddingValues(
+                        horizontal = 16.dp,
+                        vertical = 12.dp
+                    )
                 ) {
-                    Text(category.name, style = MaterialTheme.typography.titleLarge)
+                    Text(
+                        text = category.name,
+                        style = MaterialTheme.typography.titleLarge,
+                        maxLines = 2
+                    )
                 }
 
                 Spacer(Modifier.height(12.dp))

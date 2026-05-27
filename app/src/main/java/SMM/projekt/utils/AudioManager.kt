@@ -7,19 +7,40 @@ import SMM.projekt.R
 object AudioManager {
 
     private var mediaPlayer: MediaPlayer? = null
+    private var currentVolume: Float = 0.3f
+    private var muted: Boolean = false
 
+    fun setMuted(value: Boolean) {
+        muted = value
+
+        if (muted) {
+            mediaPlayer?.pause()
+        } else {
+            mediaPlayer?.start()
+        }
+
+        applyVolume()
+    }
+
+    fun setVolume(value: Float) {
+        currentVolume = value
+        applyVolume()
+    }
+
+    private fun applyVolume() {
+        val finalVolume = if (muted) 0f else currentVolume
+        mediaPlayer?.setVolume(finalVolume, finalVolume)
+    }
     fun start(context: Context) {
-
         if (mediaPlayer == null) {
-
             mediaPlayer = MediaPlayer.create(
                 context.applicationContext,
                 R.raw.muzyka_tlo
             ).apply {
                 isLooping = true
-                setVolume(0.3f, 0.3f)
                 start()
             }
+            applyVolume()
         }
     }
 
@@ -28,7 +49,9 @@ object AudioManager {
     }
 
     fun resume() {
-        mediaPlayer?.start()
+        if (!muted) {
+            mediaPlayer?.start()
+        }
     }
 
     fun stop() {

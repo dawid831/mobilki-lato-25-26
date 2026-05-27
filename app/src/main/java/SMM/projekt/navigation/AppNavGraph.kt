@@ -3,6 +3,7 @@ package SMM.projekt.navigation
 import SMM.projekt.data.categoryDataList
 import SMM.projekt.data.productDataList
 import SMM.projekt.ui.screens.CategoryScreen
+import SMM.projekt.ui.screens.ErrorScreen
 import SMM.projekt.ui.screens.HomeScreen
 import SMM.projekt.ui.screens.ProductDetailsScreen
 import SMM.projekt.ui.screens.SettingsScreen
@@ -45,12 +46,25 @@ fun AppNavGraph(
                 ?.getString("productId")
                 ?.toIntOrNull()
 
-            ProductDetailsScreen(
-                productId = productId,
-                onBackClick = {
-                    navController.popBackStack()
-                }
-            )
+            val product = productDataList.find {
+                it.id == productId
+            }
+
+            if (product == null) {
+                ErrorScreen(
+                    errorMessage = "Nie odnaleziono produktu o id $productId",
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
+                )
+            } else {
+                ProductDetailsScreen(
+                    product = product,
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
+                )
+            }
         }
 
         composable("category/{categoryId}") { backStackEntry ->
@@ -67,16 +81,25 @@ fun AppNavGraph(
                 it.categoryId == categoryId
             }
 
-            CategoryScreen(
-                categoryName = category?.name ?: "Kategoria",
-                products = products,
-                onProductClick = { productId ->
-                    navController.navigate("product/$productId")
-                },
-                onBackClick = {
-                    navController.popBackStack()
-                }
-            )
+            if (category == null) {
+                ErrorScreen(
+                    errorMessage = "Nie odnalezeiono kategorii o id $categoryId",
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
+                )
+            } else {
+                CategoryScreen(
+                    category = category,
+                    products = products,
+                    onProductClick = { productId ->
+                        navController.navigate("product/$productId")
+                    },
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
+                )
+            }
         }
 
         composable("settings") {
